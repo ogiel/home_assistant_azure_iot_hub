@@ -1,0 +1,22 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Azure IoT Hub Configuration",
+        "description": "Please enter the connection string for your Azure IoT Hub and configure the timer.",
+        "data": {
+          "iot_hub_device_connection_string": "Azure IoT Hub Connection String",
+          "minute_timer": "Minute Timer (in minutes)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+      "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
+      "unknown": "[%key:common::config_flow::error::unknown%]"
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+    }
+  }
+}
