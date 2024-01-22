@@ -6,7 +6,7 @@
         "description": "Please enter the connection string for your Azure IoT Hub and configure the timer.",
         "data": {
           "iot_hub_device_connection_string": "Azure IoT Hub Connection String",
-          "minute_timer": "Minute Timer (in minutes)"
+          "minute_timer": "Minutes between data push"
         }
       }
     },

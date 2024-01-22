@@ -3,4 +3,5 @@
 DOMAIN = "azure_iot_hub"
 
 IOT_HUB_DEVICE_CONNECTION_STRING = "iot_hub_device_connection_string"
-MINUTE_TIMER = 1
+MINUTE_TIMER_KEY = "minute_timer"
+DEFAULT_MINUTE_TIMER = 1

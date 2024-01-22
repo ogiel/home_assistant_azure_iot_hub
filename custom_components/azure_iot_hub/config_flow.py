@@ -14,22 +14,19 @@ from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.entity_registry import async_get
 
-from .const import DOMAIN, IOT_HUB_DEVICE_CONNECTION_STRING, MINUTE_TIMER
+from .const import (
+    DOMAIN,
+    IOT_HUB_DEVICE_CONNECTION_STRING,
+    MINUTE_TIMER_KEY,
+    DEFAULT_MINUTE_TIMER,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
-# TODO adjust the data schema to the data that you need
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
-        # Include the title in the description dict
-        vol.Required(
-            IOT_HUB_DEVICE_CONNECTION_STRING, description={"title": "Connection String"}
-        ): str,
-        vol.Required(
-            MINUTE_TIMER,
-            description={"title": "Minute Timer"},
-            # You could validate that the minute timer is an integer and within a certain range if needed
-        ): vol.All(vol.Coerce(int), vol.Range(min=1, max=1440)),
+        vol.Required(IOT_HUB_DEVICE_CONNECTION_STRING): str,
+        vol.Required(MINUTE_TIMER_KEY, default=DEFAULT_MINUTE_TIMER): cv.positive_int,
     }
 )
 
@@ -83,7 +80,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     # If validation fails, you might raise an appropriate exception
 
     # Return info that you want to store in the config entry, including the timer value
-    return {"title": "IoT Hub Device", "minute_timer": data["minute_timer"]}
+    # return {"title": "IoT Hub Device", "minute_timer": data["minute_timer"]}
+    return {"title": "IoT Hub Device"}
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
