@@ -12,7 +12,12 @@ from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.event import async_track_time_interval
 
-from .const import DOMAIN, IOT_HUB_DEVICE_CONNECTION_STRING, MINUTE_TIMER
+from .const import (
+    DOMAIN,
+    IOT_HUB_DEVICE_CONNECTION_STRING,
+    MINUTE_TIMER_KEY,
+    DEFAULT_MINUTE_TIMER,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -47,7 +52,7 @@ async def send_data_to_iot_hub(
     if data_to_send:
         message_string = json.dumps(data_to_send)
         message = Message(message_string)
-
+        _LOGGER.info(message)
         # Send the data to Azure IoT Hub
         await hass.async_add_executor_job(client.send_message, message)
         _LOGGER.info("Sent data to IoT Hub for configured entities")
@@ -81,7 +86,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     # Set up the scheduled task to send data.
-    send_interval = timedelta(minutes=MINUTE_TIMER)
+    # send_interval = timedelta(minutes=MINUTE_TIMER)
+    send_interval = timedelta(
+        minutes=entry.data.get(MINUTE_TIMER_KEY, DEFAULT_MINUTE_TIMER)
+    )
 
     async def scheduled_send(now):
         # Make sure to pass the `client` from `hass.data` corresponding to the current `entry.entry_id`.
